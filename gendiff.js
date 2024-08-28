@@ -1,6 +1,6 @@
 import { program } from 'commander';
-import path from 'path';
 import fs from 'fs';
+import { genDiff } from './src/gendiff';
 
 // console.log(process.cwd());
 // console.log(path.resolve(process.cwd(), '/Users/mama.json'));
@@ -30,26 +30,8 @@ program
   .action((filepath1, filepath2) => {
     const data1 = getDataFromFile(filepath1);
     const data2 = getDataFromFile(filepath2);
-    const mergeData = { ...data1, ...data2 };
-    const keys = Object.keys(mergeData).sort();
-    console.log('{');
-    keys.forEach((key) => {
-      if (key in data1) {
-        if (key in data2) {
-          if (data1[key] === data2[key]) {
-            console.log(`    ${key}: ${data1[key]}`);
-          } else {
-            console.log(`  - ${key}: ${data1[key]}`);
-            console.log(`  + ${key}: ${data2[key]}`);
-          }
-        } else {
-          console.log(`  - ${key}: ${data1[key]}`);
-        }
-      } else if (key in data2) {
-        console.log(`  + ${key}: ${data2[key]}`);
-      }
-    });
-    console.log('}');
+
+    console.log(genDiff(data1, data2));
   });
 
-program.parse(process.argv);
+program.parse();
