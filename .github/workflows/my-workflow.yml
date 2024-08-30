@@ -12,5 +12,6 @@ jobs:
       # checkout — клонирует репозиторий
       - uses: actions/checkout@v4
       # run – произвольная bash-команда
+      - run: npm install
       - run: make lint
       - run: make test
