@@ -2,7 +2,7 @@
 
 [![Actions Status](https://github.com/cheenchok/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/cheenchok/frontend-project-46/actions)
 
-[![.github/workflows/my-workflow.yml](https://github.com/cheenchok/frontend-project-46/actions/workflows/my-workflow.yml/badge.svg)](https://github.com/cheenchok/frontend-project-46/actions/workflows/my-workflow.yml)
+[![my-workflow](https://github.com/cheenchok/frontend-project-46/actions/workflows/my-workflow.yml/badge.svg)](https://github.com/cheenchok/frontend-project-46/actions/workflows/my-workflow.yml)
 
 ### Code climate status:
 
