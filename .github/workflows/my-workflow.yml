@@ -15,3 +15,8 @@ jobs:
       - run: npm install
       - run: make lint
       - run: make test
+    steps:
+      - name: Test & publish code coverage
+      - uses: paambaati/codeclimate-action@v9.0.0
+      - env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
