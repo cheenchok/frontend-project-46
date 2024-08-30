@@ -20,3 +20,6 @@ jobs:
         uses: paambaati/codeclimate-action@v9.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CODECLIMATE_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: NODE_OPTIONS=--experimental-vm-modules npx jest --coverage
+          debug: true
