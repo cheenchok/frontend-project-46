@@ -1,8 +1,12 @@
+import { getDataFromFile } from './parsers.js';
+
 function getDiffRow(prefix, key, value) {
   return `\n  ${prefix} ${key}: ${value}`;
 }
 
-export function genDiff(data1, data2) {
+export function genDiff(filepath1, filepath2) {
+  const data1 = getDataFromFile(filepath1);
+  const data2 = getDataFromFile(filepath2);
   const mergeData = { ...data1, ...data2 };
   const keys = Object.keys(mergeData).sort();
 

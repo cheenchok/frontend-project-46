@@ -1,25 +1,8 @@
 import { program } from 'commander';
-import fs from 'fs';
-import { genDiff } from './src/gendiff';
+import { genDiff } from './src/gendiff.js';
 
 // console.log(process.cwd());
 // console.log(path.resolve(process.cwd(), '/Users/mama.json'));
-
-function getFormat(path) {
-  const data = path.split('.');
-
-  return data[data.length - 1];
-}
-
-function getDataFromFile(path) {
-  const format = getFormat(path);
-  const string = fs.readFileSync(path, 'utf8');
-  if (format === 'json') {
-    const data = JSON.parse(string);
-    return data;
-  }
-  return string;
-}
 
 program
   .name('gendiff')
@@ -28,10 +11,7 @@ program
   .option('-f, --format [type]', 'output format')
   .arguments('<filepath1> <filepath2>')
   .action((filepath1, filepath2) => {
-    const data1 = getDataFromFile(filepath1);
-    const data2 = getDataFromFile(filepath2);
-
-    console.log(genDiff(data1, data2));
+    console.log(genDiff(filepath1, filepath2));
   });
 
 program.parse();
