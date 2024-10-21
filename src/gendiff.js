@@ -59,7 +59,7 @@ function genDiffFromObj(data1, data2, isNested = false) {
     .flat();
 }
 
-export function genDiff(filepath1, filepath2, formatType) {
+export default function genDiff(filepath1, filepath2, formatType) {
   const data1 = getDataFromFile(filepath1);
   const data2 = getDataFromFile(filepath2);
   const diff = genDiffFromObj(data1, data2);
