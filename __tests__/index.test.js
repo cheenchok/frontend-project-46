@@ -38,7 +38,6 @@ describe('get diff', () => {
       test(`${formatter} formatter for ${
         isFlat ? 'flat' : 'nested'
       } ${format}`, () => {
-        console.log('masha', isFlat ? 'flat' : 'nested', formatter);
         expect(genDiff(...getFileNames(format, isFlat), formatter)).toEqual(
           result[isFlat ? 'flat' : 'nested'][formatter]
         );

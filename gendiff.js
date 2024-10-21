@@ -1,9 +1,6 @@
 import { program } from 'commander';
 import { genDiff } from './src/gendiff.js';
 
-// console.log(process.cwd());
-// console.log(path.resolve(process.cwd(), '/Users/mama.json'));
-
 program
   .name('gendiff')
   .description('Compares two configuration files and shows a difference.')
