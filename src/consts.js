@@ -1,0 +1,6 @@
+export const DIFF_TYPES = {
+  EQUALITY: 'EQUALITY',
+  ABSENT: 'ABSENT',
+  EXTRA: 'EXTRA',
+  NESTED: 'NESTED',
+};
