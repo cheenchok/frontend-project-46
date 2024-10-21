@@ -6,6 +6,9 @@
   "bin": {
     "gendiff": "bin/gendiff.js"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheenchok/frontend-project-46.git"
