@@ -1,0 +1,32 @@
+[
+  {
+    "key": "follow",
+    "value": false,
+    "diffType": "ABSENT"
+  },
+  {
+    "key": "host",
+    "value": "hexlet.io",
+    "diffType": "EQUALITY"
+  },
+  {
+    "key": "proxy",
+    "value": "123.234.53.22",
+    "diffType": "ABSENT"
+  },
+  {
+    "key": "timeout",
+    "value": 50,
+    "diffType": "ABSENT"
+  },
+  {
+    "key": "timeout",
+    "value": 20,
+    "diffType": "EXTRA"
+  },
+  {
+    "key": "verbose",
+    "value": true,
+    "diffType": "EXTRA"
+  }
+]

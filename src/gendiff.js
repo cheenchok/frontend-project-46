@@ -2,6 +2,7 @@ import { getDataFromFile } from './parsers.js';
 import { isObject } from './utils.js';
 import { DIFF_TYPES } from './consts.js';
 import { formatter } from './formatters/index.js';
+import fs from 'fs';
 
 function genDiffFromObj(data1, data2, isNested = false) {
   const mergeData = { ...data1, ...data2 };
