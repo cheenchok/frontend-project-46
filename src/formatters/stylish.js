@@ -1,7 +1,7 @@
 import { DIFF_TYPES } from '../consts.js';
 
 const LINE_PREFIX_FROM_DIFF_TYPE = {
-  [DIFF_TYPES.NESTED]: '',
+  [DIFF_TYPES.NESTED]: ' ',
   [DIFF_TYPES.EQUALITY]: '',
   [DIFF_TYPES.ABSENT]: '-',
   [DIFF_TYPES.EXTRA]: '+',
