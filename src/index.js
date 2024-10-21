@@ -1,5 +1,5 @@
 import { program } from 'commander';
-import { genDiff } from '../src/gendiff.js';
+import { genDiff } from './gendiff.js';
 
 program
   .name('gendiff')
