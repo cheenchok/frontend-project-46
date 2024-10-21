@@ -9,7 +9,7 @@ const getFileNames = (format, isFlat) => {
   );
 };
 
-describe('get diff', () => {
+describe('gendiff', () => {
   const result = {
     flat: {
       stylish:
