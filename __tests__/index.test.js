@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { genDiff } from '../src/gendiff';
+import genDiff from '../src/gendiff.js';
 
 const getFileNames = (format, isFlat) => {
   return Array.from(
