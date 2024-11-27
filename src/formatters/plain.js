@@ -12,6 +12,8 @@ const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
 export function plain(data, parentPath, nested) {
   const result = data
     .map(({ diffType, key, value }, i) => {
+      const fullPath = getFullPath(parentPath, key);
+
       const prevItem = data[i - 1];
       const nextItem = data[i + 1];
       if (prevItem?.key === key) {
@@ -20,21 +22,18 @@ export function plain(data, parentPath, nested) {
 
       switch (diffType) {
         case DIFF_TYPES.EXTRA:
-          return makeLine(
-            getFullPath(parentPath, key),
-            `added with value: ${formatValue(value)}`
-          );
+          return makeLine(fullPath, `added with value: ${formatValue(value)}`);
         case DIFF_TYPES.ABSENT:
           return nextItem?.key === key
             ? makeLine(
-                getFullPath(parentPath, key),
+                fullPath,
                 `updated. From ${formatValue(value)} to ${formatValue(
                   nextItem.value
                 )}`
               )
-            : makeLine(getFullPath(parentPath, key), `removed`);
+            : makeLine(fullPath, `removed`);
         case DIFF_TYPES.NESTED:
-          return plain(value, getFullPath(parentPath, key), true);
+          return plain(value, fullPath, true);
         case DIFF_TYPES.EQUALITY:
         default:
           return null;
