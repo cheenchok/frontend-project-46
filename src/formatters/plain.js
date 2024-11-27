@@ -10,7 +10,6 @@ const getFullPath = (parentPath, key) =>
 const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
 
 export function plain(data, parentPath, nested) {
-  console.log(data);
   const result = data
     .map(({ diffType, key, value }, i) => {
       const prevItem = data[i - 1];
