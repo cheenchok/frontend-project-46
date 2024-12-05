@@ -11,10 +11,12 @@ const SPACES_COUNT = 4;
 const SPECES_COUNT_WITH_PREFIX = 2;
 
 export default function stylish(data, level = 1) {
-  const string = data.reduce((acc, { key, value, diffType }) => {
-    return `${acc}${' '.repeat(level * SPACES_COUNT - SPECES_COUNT_WITH_PREFIX)}${
+  const string = data.reduce(function (acc, { key, value, diffType }) {
+    const postfix = `${' '.repeat(level * SPACES_COUNT - SPECES_COUNT_WITH_PREFIX)}${
       LINE_PREFIX_FROM_DIFF_TYPE[diffType]
-    } ${key}: ${value && typeof value === 'object' ? stylish(value, level + 1) : value}\n`;
+    } ${key}: ${value && typeof value === 'object' ? stylish(value, level + 1) : value}}\n`;
+
+    return `${acc}${postfix}`;
   }, '{\n');
 
   return `${string}${' '.repeat((level - 1) * SPACES_COUNT)}}`;
