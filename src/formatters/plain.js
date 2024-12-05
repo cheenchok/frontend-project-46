@@ -13,7 +13,7 @@ function getFullPath(parentPath, key) {
 
 const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
 
-export function plain(data, parentPath, nested) {
+export default function plain(data, parentPath, nested) {
   const result = data
     .map(({ diffType, key, value }, i) => {
       const fullPath = getFullPath(parentPath, key);
@@ -25,9 +25,10 @@ export function plain(data, parentPath, nested) {
       }
 
       switch (diffType) {
-        case DIFF_TYPES.EXTRA:
+        case DIFF_TYPES.EXTRA: {
           return makeLine(fullPath, `added with value: ${formatValue(value)}`);
-        case DIFF_TYPES.ABSENT:
+        }
+        case DIFF_TYPES.ABSENT: {
           return nextItem?.key === key
             ? makeLine(
                 fullPath,
@@ -36,11 +37,14 @@ export function plain(data, parentPath, nested) {
                 )}`,
               )
             : makeLine(fullPath, `removed`);
-        case DIFF_TYPES.NESTED:
+        }
+        case DIFF_TYPES.NESTED: {
           return plain(value, fullPath, true);
+        }
         case DIFF_TYPES.EQUALITY:
-        default:
+        default: {
           return null;
+        }
       }
     })
     .filter(Boolean)
