@@ -2,9 +2,7 @@ import DIFF_TYPES from '../consts.js';
 import { isObject } from '../utils.js';
 
 function formatValue(value) {
-  return isObject(value)
-    ? '[complex value]'
-    : `${typeof value === 'string' ? `'${value}'` : value}`;
+  return isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
 }
 
 function getFullPath(parentPath, key) {
@@ -29,12 +27,7 @@ export default function plain(data, parentPath, nested) {
       }
       case DIFF_TYPES.ABSENT: {
         return nextItem?.key === key
-          ? makeLine(
-              fullPath,
-              `updated. From ${formatValue(value)} to ${formatValue(
-                nextItem.value,
-              )}`,
-            )
+          ? makeLine(fullPath, `updated. From ${formatValue(value)} to ${formatValue(nextItem.value)}`)
           : makeLine(fullPath, `removed`);
       }
       case DIFF_TYPES.NESTED: {
