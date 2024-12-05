@@ -8,7 +8,7 @@ function formatValue(value) {
 }
 
 function getFullPath(parentPath, key) {
-  parentPath ? `${parentPath}.${key}` : key;
+  return parentPath ? `${parentPath}.${key}` : key;
 }
 
 const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
