@@ -23,11 +23,13 @@ describe('gendiff', () => {
   });
 
   test('stylish with yml', () => {
-    expect(genDiff(file1YmlPath, file2YmlPath, 'plain')).toEqual(resultStylish);
+    expect(genDiff(file1YmlPath, file2YmlPath, 'stylish')).toEqual(
+      resultStylish
+    );
   });
 
   test('stylish with json', () => {
-    expect(genDiff(file1JsonPath, file2JsonPath, 'plain')).toEqual(
+    expect(genDiff(file1JsonPath, file2JsonPath, 'stylish')).toEqual(
       resultStylish
     );
   });
