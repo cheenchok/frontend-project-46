@@ -1,13 +1,15 @@
 import { DIFF_TYPES } from '../consts.js';
 import { isObject } from '../utils.js';
 
-const formatValue = (value) =>
-  isObject(value)
+function formatValue(value) {
+  return isObject(value)
     ? '[complex value]'
     : `${typeof value === 'string' ? `'${value}'` : value}`;
+}
 
-const getFullPath = (parentPath, key) =>
+function getFullPath(parentPath, key) {
   parentPath ? `${parentPath}.${key}` : key;
+}
 
 const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
 
@@ -30,8 +32,8 @@ export function plain(data, parentPath, nested) {
             ? makeLine(
                 fullPath,
                 `updated. From ${formatValue(value)} to ${formatValue(
-                  nextItem.value
-                )}`
+                  nextItem.value,
+                )}`,
               )
             : makeLine(fullPath, `removed`);
         case DIFF_TYPES.NESTED:

@@ -1,7 +1,7 @@
 import { plain } from './plain.js';
 import { stylish } from './stylish.js';
 
-export const formatter = (data, type) => {
+export default function formatter(data, type) {
   switch (type) {
     case 'plain': {
       return plain(data);
@@ -14,4 +14,4 @@ export const formatter = (data, type) => {
       return stylish(data);
     }
   }
-};
+}

@@ -1,6 +1,8 @@
-export const DIFF_TYPES = {
+const DIFF_TYPES = {
   EQUALITY: 'EQUALITY',
   ABSENT: 'ABSENT',
   EXTRA: 'EXTRA',
   NESTED: 'NESTED',
 };
+
+export default DIFF_TYPES;
