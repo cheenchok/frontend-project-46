@@ -6,7 +6,7 @@ export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   {
-    files: ['__tests__/**'],
+    files: ['__tests__/**', 'src/**'],
     ...jest.configs['flat/recommended'],
     rules: {
       ...jest.configs['flat/recommended'].rules,
