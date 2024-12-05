@@ -1,13 +1,12 @@
 import fs from 'fs';
 import genDiff from '../src/gendiff.js';
 
-const getFileNames = (format, isFlat) => {
-  return Array.from(
+const makeFileNames = (format, isFlat) =>
+  Array.from(
     Array(2),
     (_, i) =>
       `__fixtures__/${isFlat ? 'flat' : 'nested'}-file${i + 1}.${format}`
   );
-};
 
 describe('gendiff', () => {
   const result = {
@@ -38,7 +37,7 @@ describe('gendiff', () => {
       test(`${formatter} formatter for ${
         isFlat ? 'flat' : 'nested'
       } ${format}`, () => {
-        expect(genDiff(...getFileNames(format, isFlat), formatter)).toEqual(
+        expect(genDiff(...makeFileNames(format, isFlat), formatter)).toEqual(
           result[isFlat ? 'flat' : 'nested'][formatter]
         );
       })
