@@ -11,6 +11,7 @@ export default [
     rules: {
       ...jest.configs['flat/recommended'].rules,
       'jest/prefer-expect-assertions': 'off',
+      'import/prefer-default-export': 'off',
     },
   },
 ];
