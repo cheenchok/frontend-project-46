@@ -6,13 +6,13 @@ export default [
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   {
-    // files: ['__tests__/**'],
+    files: ['__tests__/**'],
     ...jest.configs['flat/recommended'],
     rules: {
       ...jest.configs['flat/recommended'].rules,
       'jest/prefer-expect-assertions': 'off',
       'import/prefer-default-export': 'off',
-      'comma-dangle': 'never',
+      'comma-dangle': 'off',
     },
   },
 ];
