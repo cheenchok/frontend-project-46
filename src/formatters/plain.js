@@ -1,4 +1,4 @@
-import { DIFF_TYPES } from '../consts.js';
+import DIFF_TYPES from '../consts.js';
 import { isObject } from '../utils.js';
 
 function formatValue(value) {

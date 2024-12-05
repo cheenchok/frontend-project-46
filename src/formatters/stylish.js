@@ -1,4 +1,4 @@
-import { DIFF_TYPES } from '../consts.js';
+import DIFF_TYPES from '../consts.js';
 
 const LINE_PREFIX_FROM_DIFF_TYPE = {
   [DIFF_TYPES.NESTED]: ' ',
