@@ -1,5 +1,5 @@
-import { getDataFromFile } from './parsers.js';
-import { isObject } from './utils.js';
+import { parser } from './parsers.js';
+import { isObject, readFile } from './utils.js';
 import { DIFF_TYPES } from './consts.js';
 import { formatter } from './formatters/index.js';
 
@@ -65,12 +65,11 @@ function genDiffFromObj(data1, data2, isNested = false) {
     .flat();
 }
 
-console.log(genDiffFromObj({ mama: { s: 1 } }, { mama: { a: 2 } }));
-
 export default function genDiff(filepath1, filepath2, formatType) {
-  const data1 = getDataFromFile(filepath1);
-  const data2 = getDataFromFile(filepath2);
-  const diff = genDiffFromObj(data1, data2);
+  const diff = genDiffFromObj(
+    parser(readFile(filepath1)),
+    parser(readFile(filepath2))
+  );
 
   return formatter(diff, formatType);
 }
