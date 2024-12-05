@@ -10,17 +10,12 @@ const LINE_PREFIX_FROM_DIFF_TYPE = {
 const SPACES_COUNT = 4;
 const SPECES_COUNT_WITH_PREFIX = 2;
 
-export function stylish(data, level = 1) {
-  let result = '{\n';
-
-  data.forEach(({ key, value, diffType }) => {
-    result += `${' '.repeat(level * SPACES_COUNT - SPECES_COUNT_WITH_PREFIX)}${
+export default function stylish(data, level = 1) {
+  const string = data.reduce((acc, { key, value, diffType }) => {
+    return `${acc}${' '.repeat(level * SPACES_COUNT - SPECES_COUNT_WITH_PREFIX)}${
       LINE_PREFIX_FROM_DIFF_TYPE[diffType]
-    } ${key}: ${
-      value && typeof value === 'object' ? stylish(value, level + 1) : value
-    }\n`;
-  });
+    } ${key}: ${value && typeof value === 'object' ? stylish(value, level + 1) : value}\n`;
+  }, '{\n');
 
-  result += `${' '.repeat((level - 1) * SPACES_COUNT)}}`;
-  return result;
+  return `${string}${' '.repeat((level - 1) * SPACES_COUNT)}}`;
 }

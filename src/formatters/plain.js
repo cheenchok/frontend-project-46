@@ -28,7 +28,7 @@ export default function plain(data, parentPath, nested) {
       case DIFF_TYPES.ABSENT: {
         return nextItem?.key === key
           ? makeLine(fullPath, `updated. From ${formatValue(value)} to ${formatValue(nextItem.value)}`)
-          : makeLine(fullPath, `removed`);
+          : makeLine(fullPath, 'removed');
       }
       case DIFF_TYPES.NESTED: {
         return plain(value, fullPath, true);

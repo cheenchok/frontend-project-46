@@ -1,5 +1,5 @@
 import plain from './plain.js';
-import { stylish } from './stylish.js';
+import stylish from './stylish.js';
 
 export default function formatter(data, type) {
   switch (type) {
