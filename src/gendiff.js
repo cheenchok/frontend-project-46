@@ -1,52 +1,25 @@
 import { parser } from './parsers.js';
 import { isObject, readFile } from './utils.js';
-import DIFF_TYPES from './consts.js';
+import DIFF from './consts.js';
 import formatter from './formatters/index.js';
+import sortBy from 'lodash.sortby';
 
-function getSortedKeys(first, second) {
-  const merged = [first, second].reduce((acc, item) => ({ ...acc, ...item }), {});
-  // eslint-disable-next-lin fp/no-mutating-methods
-  return Object.keys(merged).sort();
+function sortKeys(first, second) {
+  const merged = new Set([...Object.keys(first), ...Object.keys(second)]);
+  return sortBy([...merged]);
 }
 
-function makeDiffItem(key, value, diffType) {
-  return {
-    key,
-    value,
-    diffType,
-  };
-}
-
-const empty = {};
-
-function getDiffWithEmpty(value) {
-  return isObject(value) ? genDiffFromObj(value, empty, true) : value;
-}
-
-function genDiffFromObj(data1, data2, isNested = false) {
-  return getSortedKeys(data1, data2)
-    .map((key) => {
-      if (!Object.hasOwn(data1, key))
-        return makeDiffItem(key, getDiffWithEmpty(data2[key]), isNested ? DIFF_TYPES.NESTED : DIFF_TYPES.EXTRA);
-
-      if (!Object.hasOwn(data2, key))
-        return makeDiffItem(key, getDiffWithEmpty(data1[key]), isNested ? DIFF_TYPES.NESTED : DIFF_TYPES.ABSENT);
-
-      if (data1[key] === data2[key]) return makeDiffItem(key, data1[key], DIFF_TYPES.EQUALITY);
-
-      if (isObject(data1[key]) && isObject(data2[key]))
-        return makeDiffItem(key, genDiffFromObj(data1[key], data2[key], isNested), DIFF_TYPES.NESTED);
-
-      return [
-        makeDiffItem(key, getDiffWithEmpty(data1[key]), isNested ? DIFF_TYPES.NESTED : DIFF_TYPES.ABSENT),
-        makeDiffItem(key, getDiffWithEmpty(data2[key]), isNested ? DIFF_TYPES.NESTED : DIFF_TYPES.EXTRA),
-      ];
-    })
-    .flat();
+function diff(obj1, obj2) {
+  return sortKeys(obj1, obj2).map((key) => {
+    if (!Object.hasOwn(obj1, key)) return { key, diff: DIFF.ADDED, value: obj2[key] };
+    if (!Object.hasOwn(obj2, key)) return { key, diff: DIFF.REMOVED, value: obj1[key] };
+    if (Object.is(obj1[key], obj2[key])) return { key, diff: DIFF.UNCHANGED, value: obj1[key] };
+    if (isObject(obj1[key]) && isObject(obj2[key]))
+      return { key, diff: DIFF.NESTED, value: diff(obj1[key], obj2[key]) };
+    return { key, diff: DIFF.CHANGED, oldValue: obj1[key], newValue: obj2[key] };
+  });
 }
 
 export default function genDiff(filepath1, filepath2, formatType) {
-  const diff = genDiffFromObj(parser(readFile(filepath1)), parser(readFile(filepath2)));
-
-  return formatter(diff, formatType);
+  return formatter(diff(parser(readFile(filepath1)), parser(readFile(filepath2))), formatType);
 }

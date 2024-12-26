@@ -1,8 +1,9 @@
-const DIFF_TYPES = {
-  EQUALITY: 'EQUALITY',
-  ABSENT: 'ABSENT',
-  EXTRA: 'EXTRA',
+const DIFF = {
+  ADDED: 'ADDED',
+  REMOVED: 'REMOVED',
   NESTED: 'NESTED',
+  CHANGED: 'CHANGED',
+  UNCHANGED: 'UNCHANGED',
 };
 
-export default DIFF_TYPES;
+export default DIFF;

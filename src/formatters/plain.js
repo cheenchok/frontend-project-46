@@ -1,4 +1,4 @@
-import DIFF_TYPES from '../consts.js';
+import DIFF from '../consts.js';
 import { isObject } from '../utils.js';
 
 function formatValue(value) {
@@ -9,38 +9,31 @@ function getFullPath(parentPath, key) {
   return parentPath ? `${parentPath}.${key}` : key;
 }
 
-const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
+function makeLine(key, postfix) {
+  return `Property '${key}' was ${postfix}`;
+}
 
-export default function plain(data, parentPath, nested) {
-  function mapper({ diffType, key, value }, i) {
-    const fullPath = getFullPath(parentPath, key);
+export default function plain(data, parentPath, level = 1) {
+  const result = data
+    .flatMap((item) => {
+      const fullPath = getFullPath(parentPath, item.key);
 
-    const prevItem = data[i - 1];
-    const nextItem = data[i + 1];
-    if (prevItem?.key === key) {
-      return null;
-    }
-
-    switch (diffType) {
-      case DIFF_TYPES.EXTRA: {
-        return makeLine(fullPath, `added with value: ${formatValue(value)}`);
+      switch (item.diff) {
+        case DIFF.ADDED:
+          return makeLine(fullPath, `added with value: ${formatValue(item.value)}`);
+        case DIFF.REMOVED:
+          return makeLine(fullPath, 'removed');
+        case DIFF.NESTED:
+          return plain(item.value, fullPath, level + 1);
+        case DIFF.CHANGED:
+          return makeLine(fullPath, `updated. From ${formatValue(item.oldValue)} to ${formatValue(item.newValue)}`);
+        case DIFF.UNCHANGED:
+        default:
+          return null;
       }
-      case DIFF_TYPES.ABSENT: {
-        return nextItem?.key === key
-          ? makeLine(fullPath, `updated. From ${formatValue(value)} to ${formatValue(nextItem.value)}`)
-          : makeLine(fullPath, 'removed');
-      }
-      case DIFF_TYPES.NESTED: {
-        return plain(value, fullPath, true);
-      }
-      case DIFF_TYPES.EQUALITY:
-      default: {
-        return null;
-      }
-    }
-  }
+    })
+    .filter(Boolean)
+    .join('\n');
 
-  const result = data.map(mapper).filter(Boolean).flat();
-
-  return nested ? result : result.join('\n');
+  return `${result}${level === 1 ? '\n' : ''}`;
 }

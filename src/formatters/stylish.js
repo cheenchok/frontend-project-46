@@ -1,23 +1,40 @@
-import DIFF_TYPES from '../consts.js';
-
-const LINE_PREFIX_FROM_DIFF_TYPE = {
-  [DIFF_TYPES.NESTED]: ' ',
-  [DIFF_TYPES.EQUALITY]: ' ',
-  [DIFF_TYPES.ABSENT]: '-',
-  [DIFF_TYPES.EXTRA]: '+',
-};
+import DIFF from '../consts.js';
+import { isObject } from '../utils.js';
 
 const SPACES_COUNT = 4;
-const SPECES_COUNT_WITH_PREFIX = 2;
+
+function getSpaces(level) {
+  return ' '.repeat(level * SPACES_COUNT);
+}
+
+function customStringify(obj, level) {
+  return `{\n${Object.entries(obj)
+    .map(
+      ([key, value]) => `${getSpaces(level + 1)}${key}: ${isObject(value) ? customStringify(value, level + 1) : value}`,
+    )
+    .join('\n')}\n${getSpaces(level)}}`;
+}
+
+function makeLine(key, value, level, prefix) {
+  return `${getSpaces(level - 1)}  ${prefix || ' '} ${key}: ${
+    isObject(value) ? customStringify(value, level) : value
+  }\n`;
+}
 
 export default function stylish(data, level = 1) {
-  const string = data.reduce(function (acc, { key, value, diffType }) {
-    const postfix = `${' '.repeat(level * SPACES_COUNT - SPECES_COUNT_WITH_PREFIX)}${
-      LINE_PREFIX_FROM_DIFF_TYPE[diffType]
-    } ${key}: ${value && typeof value === 'object' ? stylish(value, level + 1) : value}}\n`;
-
-    return `${acc}${postfix}`;
-  }, '{\n');
-
-  return `${string}${' '.repeat((level - 1) * SPACES_COUNT)}}`;
+  return `${data.reduce((str, item) => {
+    switch (item.diff) {
+      case DIFF.ADDED:
+        return `${str}${makeLine(item.key, item.value, level, '+')}`;
+      case DIFF.REMOVED:
+        return `${str}${makeLine(item.key, item.value, level, '-')}`;
+      case DIFF.NESTED:
+        return `${str}${makeLine(item.key, stylish(item.value, level + 1), level)}`;
+      case DIFF.CHANGED:
+        return `${str}${makeLine(item.key, item.oldValue, level, '-')}${makeLine(item.key, item.newValue, level, '+')}`;
+      case DIFF.UNCHANGED:
+      default:
+        return `${str}${makeLine(item.key, item.value, level)}`;
+    }
+  }, '{\n')}${getSpaces(level - 1)}}${level === 1 ? '\n' : ''}`;
 }
