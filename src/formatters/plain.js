@@ -13,7 +13,7 @@ function makeLine(key, postfix) {
   return `Property '${key}' was ${postfix}`;
 }
 
-export default function plain(data, parentPath, level = 1) {
+export default function plain(data, parentPath) {
   const result = data
     .flatMap((item) => {
       const fullPath = getFullPath(parentPath, item.key);
@@ -24,7 +24,7 @@ export default function plain(data, parentPath, level = 1) {
         case DIFF.REMOVED:
           return makeLine(fullPath, 'removed');
         case DIFF.NESTED:
-          return plain(item.value, fullPath, level + 1);
+          return plain(item.value, fullPath);
         case DIFF.CHANGED:
           return makeLine(fullPath, `updated. From ${formatValue(item.oldValue)} to ${formatValue(item.newValue)}`);
         case DIFF.UNCHANGED:
@@ -35,5 +35,5 @@ export default function plain(data, parentPath, level = 1) {
     .filter(Boolean)
     .join('\n');
 
-  return `${result}${level === 1 ? '\n' : ''}`;
+  return result;
 }

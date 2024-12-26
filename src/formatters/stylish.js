@@ -36,5 +36,5 @@ export default function stylish(data, level = 1) {
       default:
         return `${str}${makeLine(item.key, item.value, level)}`;
     }
-  }, '{\n')}${getSpaces(level - 1)}}${level === 1 ? '\n' : ''}`;
+  }, '{\n')}${getSpaces(level - 1)}}`;
 }
