@@ -17,7 +17,12 @@ function diff(obj1, obj2) {
     if (isObject(obj1[key]) && isObject(obj2[key])) {
       return { key, diff: DIFF.NESTED, value: diff(obj1[key], obj2[key]) };
     }
-    return { key, diff: DIFF.CHANGED, oldValue: obj1[key], newValue: obj2[key] };
+    return {
+      key,
+      diff: DIFF.CHANGED,
+      oldValue: obj1[key],
+      newValue: obj2[key],
+    };
   });
 }
 
