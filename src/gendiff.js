@@ -1,8 +1,8 @@
-import { parser } from './parsers.js';
+import sortBy from 'lodash.sortby';
+import parser from './parsers.js';
 import { isObject, readFile } from './utils.js';
 import DIFF from './consts.js';
 import formatter from './formatters/index.js';
-import sortBy from 'lodash.sortby';
 
 function sortKeys(first, second) {
   const merged = new Set([...Object.keys(first), ...Object.keys(second)]);
@@ -14,8 +14,9 @@ function diff(obj1, obj2) {
     if (!Object.hasOwn(obj1, key)) return { key, diff: DIFF.ADDED, value: obj2[key] };
     if (!Object.hasOwn(obj2, key)) return { key, diff: DIFF.REMOVED, value: obj1[key] };
     if (Object.is(obj1[key], obj2[key])) return { key, diff: DIFF.UNCHANGED, value: obj1[key] };
-    if (isObject(obj1[key]) && isObject(obj2[key]))
+    if (isObject(obj1[key]) && isObject(obj2[key])) {
       return { key, diff: DIFF.NESTED, value: diff(obj1[key], obj2[key]) };
+    }
     return { key, diff: DIFF.CHANGED, oldValue: obj1[key], newValue: obj2[key] };
   });
 }
