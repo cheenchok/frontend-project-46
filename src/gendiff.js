@@ -22,8 +22,10 @@ const sortKeys = (first, second) => {
   return sortBy([...merged]);
 };
 
-const diff = (obj1, obj2) => {
-  return sortKeys(obj1, obj2).map((key) => {
+// prettier-ignore
+// conflict between prettier and eslint configuration from hexlet workflow
+const diff = (obj1, obj2) => (
+  sortKeys(obj1, obj2).map((key) => {
     if (!Object.hasOwn(obj1, key)) return { key, diff: DIFF.ADDED, value: obj2[key] };
     if (!Object.hasOwn(obj2, key)) return { key, diff: DIFF.REMOVED, value: obj1[key] };
     if (Object.is(obj1[key], obj2[key])) return { key, diff: DIFF.UNCHANGED, value: obj1[key] };
@@ -36,8 +38,8 @@ const diff = (obj1, obj2) => {
       oldValue: obj1[key],
       newValue: obj2[key],
     };
-  });
-};
+  })
+);
 
 export default (filepath1, filepath2, formatType) => {
   const obj1 = parser(readFile(filepath1));

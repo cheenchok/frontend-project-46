@@ -14,12 +14,15 @@ const customStringify = (obj, level) => {
 };
 
 // prettier-ignore
+// conflict between prettier and eslint configuration from hexlet workflow
 const makeLine = (key, value, level, prefix) => (
   `${getSpaces(level - 1)}  ${prefix || ' '} ${key}: ${isObject(value) ? customStringify(value, level) : value}\n`
 );
 
-const stylish = (data, level = 1) => {
-  return `${data.reduce((str, item) => {
+// prettier-ignore
+// conflict between prettier and eslint configuration from hexlet workflow
+const stylish = (data, level = 1) => (
+  `${data.reduce((str, item) => {
     switch (item.diff) {
       case DIFF.ADDED:
         return `${str}${makeLine(item.key, item.value, level, '+')}`;
@@ -33,7 +36,7 @@ const stylish = (data, level = 1) => {
       default:
         return `${str}${makeLine(item.key, item.value, level)}`;
     }
-  }, '{\n')}${getSpaces(level - 1)}}`;
-};
+  }, '{\n')}${getSpaces(level - 1)}}`
+)
 
 export default stylish;
