@@ -3,23 +3,20 @@ import isObject from '../utils.js';
 
 const SPACES_COUNT = 4;
 
-const getSpaces = (level) => {
-  return ' '.repeat(level * SPACES_COUNT);
-};
+const getSpaces = (level) => ' '.repeat(level * SPACES_COUNT);
 
 const customStringify = (obj, level) => {
-  return `{\n${Object.entries(obj)
-    .map(
-      ([key, value]) => `${getSpaces(level + 1)}${key}: ${isObject(value) ? customStringify(value, level + 1) : value}`,
-    )
-    .join('\n')}\n${getSpaces(level)}}`;
+  const stringEntries = Object.entries(obj).map(
+    ([key, value]) => `${getSpaces(level + 1)}${key}: ${isObject(value) ? customStringify(value, level + 1) : value}`,
+  );
+
+  return `{\n${stringEntries.join('\n')}\n${getSpaces(level)}}`;
 };
 
-const makeLine = (key, value, level, prefix) => {
-  return `${getSpaces(level - 1)}  ${prefix || ' '} ${key}: ${
-    isObject(value) ? customStringify(value, level) : value
-  }\n`;
-};
+// prettier-ignore
+const makeLine = (key, value, level, prefix) => (
+  `${getSpaces(level - 1)}  ${prefix || ' '} ${key}: ${isObject(value) ? customStringify(value, level) : value}\n`
+);
 
 const stylish = (data, level = 1) => {
   return `${data.reduce((str, item) => {

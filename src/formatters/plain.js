@@ -2,16 +2,13 @@ import DIFF from '../consts.js';
 import isObject from '../utils.js';
 
 const formatValue = (value) => {
-  return isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
+  if (isObject(value)) return '[complex value]';
+  return typeof value === 'string' ? `'${value}'` : value;
 };
 
-const getFullPath = (parentPath, key) => {
-  return parentPath ? `${parentPath}.${key}` : key;
-};
+const getFullPath = (parentPath, key) => (parentPath ? `${parentPath}.${key}` : key);
 
-const makeLine = (key, postfix) => {
-  return `Property '${key}' was ${postfix}`;
-};
+const makeLine = (key, postfix) => `Property '${key}' was ${postfix}`;
 
 const plain = (data, parentPath) => {
   const result = data
