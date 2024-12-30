@@ -1,19 +1,18 @@
 import DIFF from '../consts.js';
-import { isObject } from '../utils.js';
+import isObject from '../utils.js';
 
-function formatValue(value) {
-  return isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
-}
+const formatValue = (value) =>
+  isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
 
-function getFullPath(parentPath, key) {
+const getFullPath = (parentPath, key) => {
   return parentPath ? `${parentPath}.${key}` : key;
-}
+};
 
-function makeLine(key, postfix) {
+const makeLine = (key, postfix) => {
   return `Property '${key}' was ${postfix}`;
-}
+};
 
-export default function plain(data, parentPath) {
+const plain = (data, parentPath) => {
   const result = data
     .flatMap((item) => {
       const fullPath = getFullPath(parentPath, item.key);
@@ -36,4 +35,6 @@ export default function plain(data, parentPath) {
     .join('\n');
 
   return result;
-}
+};
+
+export default plain;
