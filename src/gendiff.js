@@ -1,4 +1,4 @@
-import sortBy from 'lodash/sortby';
+import sortBy from 'lodash.sortby';
 import fs from 'fs';
 import parser from './parsers.js';
 import isObject from './utils.js';
