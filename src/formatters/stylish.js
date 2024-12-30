@@ -37,6 +37,6 @@ const stylish = (data, level = 1) => (
         return `${str}${makeLine(item.key, item.value, level)}`;
     }
   }, '{\n')}${getSpaces(level - 1)}}`
-)
+);
 
 export default stylish;
