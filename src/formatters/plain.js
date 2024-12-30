@@ -1,8 +1,9 @@
 import DIFF from '../consts.js';
 import isObject from '../utils.js';
 
-const formatValue = (value) =>
-  isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
+const formatValue = (value) => {
+  return isObject(value) ? '[complex value]' : `${typeof value === 'string' ? `'${value}'` : value}`;
+};
 
 const getFullPath = (parentPath, key) => {
   return parentPath ? `${parentPath}.${key}` : key;
