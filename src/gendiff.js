@@ -10,22 +10,13 @@ const getFormat = (path) => {
   return data[data.length - 1];
 };
 
-const readFile = (path) => {
-  const format = getFormat(path);
-  const file = fs.readFileSync(path, 'utf8');
-
-  return { file, format };
-};
-
-const sortKeys = (first, second) => {
-  const merged = new Set([...Object.keys(first), ...Object.keys(second)]);
-  return sortBy([...merged]);
-};
-
 // prettier-ignore
 // conflict between prettier and eslint configuration from hexlet workflow
-const diff = (obj1, obj2) => (
-  sortKeys(obj1, obj2).map((key) => {
+const diff = (obj1, obj2) => {
+  const merged = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
+  const sortedKeys = sortBy([...merged]);
+
+  return sortedKeys.map((key) => {
     if (!Object.hasOwn(obj1, key)) return { key, diff: DIFF.ADDED, value: obj2[key] };
     if (!Object.hasOwn(obj2, key)) return { key, diff: DIFF.REMOVED, value: obj1[key] };
     if (Object.is(obj1[key], obj2[key])) return { key, diff: DIFF.UNCHANGED, value: obj1[key] };
@@ -39,11 +30,17 @@ const diff = (obj1, obj2) => (
       newValue: obj2[key],
     };
   })
-);
+};
 
 export default (filepath1, filepath2, formatType) => {
-  const obj1 = parser(readFile(filepath1));
-  const obj2 = parser(readFile(filepath2));
+  const obj1 = parser({
+    format: getFormat(filepath1),
+    file: fs.readFileSync(filepath1, 'utf8'),
+  });
+  const obj2 = parser({
+    format: getFormat(filepath2),
+    file: fs.readFileSync(filepath2, 'utf8'),
+  });
   const objDifference = diff(obj1, obj2);
 
   return formatter(objDifference, formatType);
