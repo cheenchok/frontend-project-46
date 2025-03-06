@@ -29,7 +29,7 @@ const diff = (obj1, obj2) => {
       oldValue: obj1[key],
       newValue: obj2[key],
     };
-  })
+  });
 };
 
 export default (filepath1, filepath2, formatType) => {
